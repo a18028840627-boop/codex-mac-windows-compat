@@ -96,7 +96,8 @@ def iter_files(root: Path):
         return
 
     for path in root.rglob("*"):
-        if any(part in SKIP_DIRS for part in path.parts):
+        relative_parts = path.relative_to(root).parts
+        if any(part in SKIP_DIRS for part in relative_parts):
             continue
         if path.is_file() and is_text_candidate(path):
             yield path

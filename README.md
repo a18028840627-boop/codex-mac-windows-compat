@@ -12,7 +12,8 @@ The host machine is not the target platform. When a project is intended for Wind
 - `skills/windows-compat/SKILL.md` — a reusable Codex skill for Mac → Windows development.
 - `skills/windows-compat/scripts/compat_scan.py` — a standard-library-only scanner for common macOS-only assumptions.
 - `skills/windows-compat/references/windows-compat-checklist.md` — practical review checklist.
-- `.github/workflows/compat-self-test.yml` — runs the scanner self-test on both macOS and Windows.
+- `tests/test_compat_scan.py` — standard-library regression tests for the scanner.
+- `.github/workflows/compat-self-test.yml` — runs the scanner tests on both macOS and Windows.
 
 ## Recommended use
 
@@ -38,10 +39,16 @@ python skills/windows-compat/scripts/compat_scan.py <project-path>
 
 The scanner reports common macOS-only assumptions such as hard-coded `/Users/...` paths, `osascript`, `pbcopy`, `launchctl`, AppKit/Cocoa imports, and similar patterns.
 
+### 4. Run the regression tests
+
+```bash
+python -m unittest discover -s tests -p "test_*.py" -v
+```
+
 ## Important limitation
 
 A clean scan is **not** proof that a program works on Windows. It is an early warning layer. Real Windows verification should still run on Windows or a Windows CI runner before release.
 
 ## Status
 
-V0.1 foundation.
+V0.2 scanner hardening.
