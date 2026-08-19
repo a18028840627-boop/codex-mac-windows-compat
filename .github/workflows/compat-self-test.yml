@@ -1,0 +1,19 @@
+name: Compatibility self-test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  scanner-self-test:
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Run scanner self-test
+        run: python skills/windows-compat/scripts/compat_scan.py --self-test
